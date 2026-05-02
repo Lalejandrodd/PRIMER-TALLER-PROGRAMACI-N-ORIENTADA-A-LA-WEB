@@ -39,12 +39,19 @@ gamesController.addGame = (req, res) => {
         });
     }
 
-    // 1.3. Validación de lógica de jugadores
+    // 1.3. Validación de números positivos
+    if (isNaN(minPlayers) || isNaN(maxPlayers) || isNaN(duration)
+        || Number(minPlayers) <= 0 || Number(maxPlayers) <= 0 || Number(duration) <= 0) {
+        return res.status(400).send({ 
+            msg: "Bad Request: minPlayers, maxPlayers, and duration must be positive numbers" 
+        });
+    }
+    // 1.4. Validación de lógica de jugadores
     if (Number(maxPlayers) < Number(minPlayers)) {
-        return res.status(400).send({ msg: "Bad Request: maxPlayers must be >= minPlayers" });
+        return res.status(400).send({ msg: "Bad Request: maxPlayers must be greater than or equal to minPlayers" });
     }
 
-    // 1.4. Validación de formato de fecha (DD/MM/YYYY)
+    // 1.5. Validación de formato de fecha (DD/MM/YYYY)
     const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[012])\/\d{4}$/;
     if (!dateRegex.test(acquisitionDate)) {
         return res.status(400).send({ 
@@ -52,7 +59,7 @@ gamesController.addGame = (req, res) => {
         });
     }
 
-    // 1.5. Validación de estado permitido
+    // 1.6. Validación de estado permitido
     const allowedStatus = [
         "en perfectas condiciones", 
         "ligeramente usado", 
@@ -90,7 +97,7 @@ gamesController.updateGame = (req, res) => {
     // 2.2 Validación de lógica de jugadores 
     if (minPlayers !== undefined && maxPlayers !== undefined) {
         if (Number(maxPlayers) < Number(minPlayers)) {
-            return res.status(400).send({ msg: "Bad Request: maxPlayers must be >= minPlayers" });
+            return res.status(400).send({ msg: "Bad Request: maxPlayers must be greater than or equal to minPlayers" });
         }
     }
 
