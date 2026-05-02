@@ -94,14 +94,26 @@ gamesController.updateGame = (req, res) => {
     const { minPlayers, maxPlayers, acquisitionDate, status } = req.body;
     let dataToUpdate = { ...req.body };
 
-    // 2.2 Validación de lógica de jugadores 
+    // 2.2. Validación de lógica de jugadores 
     if (minPlayers !== undefined && maxPlayers !== undefined) {
         if (Number(maxPlayers) < Number(minPlayers)) {
             return res.status(400).send({ msg: "Bad Request: maxPlayers must be greater than or equal to minPlayers" });
         }
+        if (isNaN(minPlayers) || isNaN(maxPlayers) || Number(minPlayers) <= 0 || Number(maxPlayers) <= 0) {
+            return res.status(400).send({ msg: "Bad Request: minPlayers and maxPlayers must be positive numbers" });
+        }
     }
 
-    // 2.3. Validación de formato de fecha
+    // 2.3. Validación de duración positiva
+    if (duration !== undefined) {
+        if (isNaN(duration) || Number(duration) <= 0) {
+            return res.status(400).send({
+                msg: "Bad Request: duration must be a positive number"
+            });
+        }
+    }
+
+    // 2.4. Validación de formato de fecha
     if (acquisitionDate) {
         const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])\/(0?[1-9]|1[012])\/\d{4}$/;
         if (!dateRegex.test(acquisitionDate)) {
@@ -109,7 +121,7 @@ gamesController.updateGame = (req, res) => {
         }
     }
 
-    // 2.4. Validación de Status
+    // 2.5. Validación de Status
     if (status) {
         const allowedStatus = [
             "en perfectas condiciones", 
