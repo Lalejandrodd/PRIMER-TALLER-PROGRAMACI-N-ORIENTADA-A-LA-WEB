@@ -59,6 +59,21 @@ gamesController.addGame = (req, res) => {
         });
     }
 
+    // 1.6. Validación de fecha no futura
+    if(acquisitionDate) {
+        const [day, month, year] = acquisitionDate.split("/").map(Number);
+        const dateObj = new Date(year, month - 1, day);
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+
+        if(dateObj > today) {
+            return res.status(400).send({
+                msg: "Bad Request: acquisitionDate cannot be in the future"
+            });
+        }
+    }
+
     // 1.6. Validación de estado permitido
     const allowedStatus = [
         "en perfectas condiciones", 
