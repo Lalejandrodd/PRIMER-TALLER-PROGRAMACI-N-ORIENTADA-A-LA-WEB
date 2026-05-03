@@ -74,7 +74,7 @@ gamesController.addGame = (req, res) => {
         }
     }
 
-    // 1.6. Validación de estado permitido
+    // 1.7. Validación de estado permitido
     const allowedStatus = [
         "en perfectas condiciones", 
         "ligeramente usado", 
@@ -106,7 +106,7 @@ gamesController.updateGame = (req, res) => {
         return res.status(400).send({ msg: "Bad Request: No data provided for update" });
     }
 
-    const { minPlayers, maxPlayers, acquisitionDate, status } = req.body;
+    const { minPlayers, maxPlayers, duration, acquisitionDate, status } = req.body;
     let dataToUpdate = { ...req.body };
 
     // 2.2. Validación de lógica de jugadores 
@@ -136,7 +136,22 @@ gamesController.updateGame = (req, res) => {
         }
     }
 
-    // 2.5. Validación de Status
+    // 2.5. Validación de fecha no futura
+    if(acquisitionDate) {
+        const [day, month, year] = acquisitionDate.split("/").map(Number);
+        const dateObj = new Date(year, month - 1, day);
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+
+        if(dateObj > today) {
+            return res.status(400).send({
+                msg: "Bad Request: acquisition date cannot be in the future"
+            });
+        }
+    }
+
+    // 2.6. Validación de Status
     if (status) {
         const allowedStatus = [
             "en perfectas condiciones", 
