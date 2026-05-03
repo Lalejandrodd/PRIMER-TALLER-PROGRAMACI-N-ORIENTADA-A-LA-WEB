@@ -1,6 +1,7 @@
-╔═════════════════════════════════════════════════════════════════════════════════════════════════════╗
-║           PRIMER TALLER DE PROGRAMACIÓN ORIENTADA A LA WEB - API REST PARA JUEGOS DE MESA           ║
-╚═════════════════════════════════════════════════════════════════════════════════════════════════════╝
+╔═════════════════════════════════════════════════════════════════╗
+║        PRIMER TALLER DE PROGRAMACIÓN ORIENTADA A LA WEB -       ║
+                API REST PARA JUEGOS DE MESA                      ║
+╚═════════════════════════════════════════════════════════════════╝
 
 API REST para gestionar una coleccion de juegos de mesa. Permite crear, consultar, actualizar y eliminar juegos
 
