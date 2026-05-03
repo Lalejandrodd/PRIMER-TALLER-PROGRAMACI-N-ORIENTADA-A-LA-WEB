@@ -20,18 +20,6 @@ app.use(
 app.use(helmet())
 
 //ROUTES
-app.get("/", (req , res)  => {
-    res.status(200).send({
-        msg: "Running Server"
-    })
-})
-
-app.get("/module/:variable", (req , res)  => {
-    console.log(req.params)
-    console.log(req.query)
-    res.status(200).send({
-        msg: "Running Server"
-    })
-})
 app.use("/api", indexRouter)
+
 export default app;

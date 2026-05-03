@@ -109,13 +109,28 @@ gamesController.updateGame = (req, res) => {
     const { minPlayers, maxPlayers, duration, acquisitionDate, status } = req.body;
     let dataToUpdate = { ...req.body };
 
-    // 2.2. Validación de lógica de jugadores 
-    if (minPlayers !== undefined && maxPlayers !== undefined) {
-        if (Number(maxPlayers) < Number(minPlayers)) {
-            return res.status(400).send({ msg: "Bad Request: maximum amount of players must be greater than or equal to minimum amount of players" });
+    // 2.2. Validación de lógica de jugadores
+    if (minPlayers !== undefined || maxPlayers !== undefined) {
+        const previoGame = gamesService.getGame(idGame);
+        if (!previoGame) {
+            return res.status(404).send({ msg: "Game not found" });
         }
-        if (isNaN(minPlayers) || isNaN(maxPlayers) || Number(minPlayers) <= 0 || Number(maxPlayers) <= 0) {
-            return res.status(400).send({ msg: "Bad Request: minimum and maximum amount of players must be positive numbers" });
+        
+        const finalMin = minPlayers !== undefined ? Number(minPlayers) : previoGame.minPlayers;
+        const finalMax = maxPlayers !== undefined ? Number(maxPlayers) : previoGame.maxPlayers;
+        
+        if (minPlayers !== undefined && (isNaN(minPlayers) || Number(minPlayers) <= 0)) {
+            return res.status(400).send({ msg: "Bad Request: minimum amount of players must be a positive number" });
+        }
+        
+        if (maxPlayers !== undefined && (isNaN(maxPlayers) || Number(maxPlayers) <= 0)) {
+            return res.status(400).send({ msg: "Bad Request: maximum amount of players must be a positive number" });
+        }
+        
+        if (finalMax < finalMin) {
+            return res.status(400).send({ 
+                msg: "Bad Request: maximum amount of players must be greater than or equal to minimum amount of players" 
+            });
         }
     }
 
