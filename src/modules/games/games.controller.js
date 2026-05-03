@@ -193,7 +193,7 @@ gamesController.updateGame = (req, res) => {
     }
 
     res.status(200).send({
-        msg: `Game ${updatedGame.name} updated successfully`
+        msg: `Game updated successfully`
     });
 };
 
