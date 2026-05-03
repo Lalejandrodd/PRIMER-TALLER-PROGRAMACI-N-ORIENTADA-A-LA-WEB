@@ -16,7 +16,7 @@ CARACTERÍSTICAS TÉCNICAS
   Validaciones referentes a número de jugadores, cantidades no negativas, fechas futuras, formatos de fecha y estados permitidos (En perfectas condiciones, ligeramente usado, deteriorado o dañado)
 
 CÓMO EJECUTAR EL PROYECTO
-  1. Instalar las dependencias: npm i express, morgan, helmet, cors
+  1. Instalar las dependencias.
   2. Iniciar el servidor con: node src/index.js
 
 El servidor corre en: http://localhost:3000
@@ -70,7 +70,7 @@ VALIDACIONES
     en perfectas condiciones
     ligeramente usado
     deteriorado
-    danado
+    dañado
 
 ESTRUCTURA DEL PROYECTO
 src/
